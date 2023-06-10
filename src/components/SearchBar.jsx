@@ -1,21 +1,21 @@
 import { IconButton, InputAdornment, TextField } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import { Clear, ClearAll, Padding, Search as SearchIcon } from '@mui/icons-material'
+import { useNavigate } from 'react-router-dom'
 const SearchBar = ({searchTerm,setSearchTerm,onSearch,setSearchHover,searchHover}) => {
-
-    const handleKeyPress = e => {
-        if(e.key === 'Enter') {
-            e.preventDefault();
-            handleSearch()
-        }
+const [defaultValue,setDefaultValue]=useState('')
+  const navigate = useNavigate()
+    const handleSearch = (e) => {
+      setSearchTerm(defaultValue)
+      console.log('query:' , searchTerm)
+    if( searchTerm.trim() !== '' ){
+      const searchUrl = `/search?q=${encodeURIComponent(searchTerm)}`
+      navigate(searchUrl,{ replace:true})
+    } else if (searchTerm.trim() === '' ){
+      navigate('/')
     }
-    const handleChange = (e) => {
-      setSearchTerm(e.target.value);
-    };
-    const handleSearch = () => {
-      // Perform search action using the searchQuery value
-      console.log('Search query:', searchTerm);
-    };
+    }
+
   return (
     <TextField
     onFocus={()=>setSearchHover(true)}
@@ -25,12 +25,11 @@ const SearchBar = ({searchTerm,setSearchTerm,onSearch,setSearchHover,searchHover
         width:`${!searchHover ? '25%' : '80%'}`,
         transition: 'width 0.3s ease-in-out'
       }}
+    value={defaultValue}
+    onChange={(e)=>setDefaultValue(e.target.value)}
     size="small"
     placeholder="search..."
     variant="outlined"
-    value={searchTerm}
-    onChange={handleChange}
-    onKeyPress={handleKeyPress}
     InputProps={{
       style: {
         padding: 0,

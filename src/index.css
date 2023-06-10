@@ -1,3 +1,10 @@
 a {
     text-decoration: none;
+    color: #007bff;
+}
+
+#overlay:hover  {
+    background-color: rgba(0, 0, 0, 0) ;
+    opacity:1 ;
+    text-decoration: underline;
 }

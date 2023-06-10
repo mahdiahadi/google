@@ -1,36 +1,61 @@
 import React, { useState } from 'react'
 import { useGetEventsQuery } from '../redux/services/OverallEventViewApi'
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Grid, IconButton, Menu, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Container, Grid, IconButton, Menu, Stack, Typography, useMediaQuery, useTheme } from '@mui/material';
 import SearchBar from './SearchBar';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import AppsIcon from '@mui/icons-material/Apps';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from '@mui/icons-material';
+import { ArrowRight, Image, Star, StarBorder } from '@mui/icons-material';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // import the carousel CSS
+import DesktopMenu from './DesktopMenu';
 
 const OverallEventView = () => {
+  // desktop menu
+  const [desktopMenu,setDesktopMenu]=useState(false)
+  // side image state
+  const [hover,setHover]=useState(false)
   const [searchTerm,setSearchTerm] =useState('')
   const [searchHover,setSearchHover] = useState(false);
-  const [showNavbar,setShowNavbar] = useState(false)
+  // getdata from redux api
   const { data:getEvenets,isLoading,isError} = useGetEventsQuery(searchTerm);
   const[sliderIndex,setSliderIndex] = useState(0)
-  const data = getEvenets?.top_stories || []
   console.log(getEvenets)
+  // mobile or tablet state 
   const theme = useTheme()
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
-
+  // information about data 
   const total_results = getEvenets?.search_information?.total_results
   const location = getEvenets?.search_parameters?.q
-  // const regex = /\b(\w+:\/\/(?:www\.)?([\w.-]+(?:\.[\w.-]+)+))/gi;
-  // const webLink = getEvenets?.organic_results[0]?.snippet.matchAll(regex)
-  // console.log(webLink)
   const FilterNews = ['News','Images','Videos','Price']
-  const myString = 'seconds'
+  const myString = 'seconds'; 
+  //Rating star
+  const [allStar]=useState(5);
+  const createArray = (len) => [...Array(len)];
+
+  const StarRating = ({allStar,selectedStar}) => {
+      return(
+        <>
+          { createArray(allStar * 2 ).map( (index , value) => (
+              <div
+                key={value}
+                style={{
+                  display:'inline-block',
+                  width:'12px',
+                  overflow:'hidden',
+                  direction: value % 2 === 0 ? 'ltr' : 'rtl'
+                }}
+              >
+                  { value <= selectedStar * 2 - 1 ? <Star style={{ fill:'orange'}} /> : <Star style={{ fill:'lightgray'}}/>}
+              </div>
+          ))}
+        </>
+      )
+  }
   return (
-    <>
+    <Container maxWidth="lg"  >
       <Grid container spacing={2} alignContent="center" display="flex" columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         <Grid display="flex" alignItems="center" justifyContent="space-between" height="100%" item xs={12} md={2}>
           {
@@ -49,17 +74,22 @@ const OverallEventView = () => {
             !isMobileOrTablet ? 
             <>
             <SearchBar searchHover={searchHover} setSearchHover={setSearchHover} setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
-            <Grid>
-            <Button size='small'><AppsIcon/></Button>
+            <Grid position="realtive">
+            <Button onClick={()=>setDesktopMenu(!desktopMenu)} size='small'><AppsIcon/></Button>
             <Button size='small' variant='contained'>Signin</Button>
+            { desktopMenu && <DesktopMenu desktopMenu={desktopMenu} setDesktopMenu={setDesktopMenu}/>}
             </Grid>
             </>
             :
             <SearchBar searchHover={searchHover} setSearchHover={setSearchHover} setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
-
+            
           }
         </Grid>
       </Grid>
+      {
+        isLoading ? <Grid display="flex" justifyContent="center" alignContent="center"><Typography variant='h4'>Loading...</Typography></Grid> 
+        :
+      <>
       <Grid container spacing={2} alignContent="center" display="flex" >
           <Grid item xs={12}>
               {FilterNews?.map((item,index)=> (
@@ -207,17 +237,90 @@ const OverallEventView = () => {
                    
                 </Grid>
               }
+              {
+                getEvenets?.organic_results && 
+                    getEvenets?.organic_results?.map((result,index) => (
+                      <Grid marginTop={5} container  direction="column" alignContent="flex-start" justifyContent="flex-start" key={index}>
+                        <Grid display="flex" alignItems="center" justifyItems="flex-start" >
+                            <Box display="flex" alignContent="center">
+                              <img src={getEvenets?.inline_images[4].image} style={{ width:'30px',height:'30px',borderRadius:'100%',objectFit:'contain'}}/>
+                            </Box>
+                            <Box mx=".8rem">
+                              <Typography variant='body1' color="rgba(0, 0, 0, 0.8)" >{result?.displayed_link}</Typography>
+                              <Typography variant='body2' color="rgba(0, 0, 0, 0.7)">{result?.link}</Typography>
+                            </Box>
+                            <Box display="flex" alignContent="center">
+                              <MoreVertIcon color='rgba(0, 0, 0, 0.8)'/>
+                            </Box>
+                        </Grid>
+                        <Grid container  marginTop={1}>
+                             <Typography variant="h6" ><Link>{result?.title}</Link></Typography>
+                              <Typography variant='body2' color="rgba(0, 0, 0, 0.9)">
+                                {result?.snippet}
+                              </Typography>
+                              {
+                                result?.rich_snippet?.top?.attributes &&
+                        
+                                  result?.rich_snippet?.top?.attributes?.map((rich,index) => (
+                                    <Grid container item xs={12} sm={6} key={index}  >
+                                 <Grid>
+                                    <Typography variant='body2' color="rgba(0, 0, 0, 0.8)" >
+                                      {rich?.name}: {rich?.value}
+                                    </Typography>
+                                 </Grid>
+                                    </Grid>  
+                                  ))
+                               
+                              }
+                              {
+                                result?.rich_snippet?.top?.detected_extensions.rating &&
+                                 
+                                    <Grid container item xs={12} sm={6} key={index}  >
+                                    <Grid mt={1} display="flex" alignItems="center">
+                                       <StarRating allStar={allStar} selectedStar={result?.rich_snippet?.top?.detected_extensions?.rating} /> &nbsp;
+                                       <Typography  variant='body2' color="rgba(0, 0, 0, 0.6)" >
+                                         Rating: { result?.rich_snippet?.top?.detected_extensions?.rating} &nbsp; Reviews: {result?.rich_snippet?.top?.detected_extensions?.reviews}
+                                       </Typography>
+                                    </Grid>
+                                       </Grid>  
+                               
+                              }
+                              <Typography variant='body2' >
+                               {
+                            
+                                result?.sitelinks &&
+                                result?.sitelinks?.inline?.map((link,index) => (
+                                    <Link key={index} target='_blank' to={link?.link}>{link?.title} . </Link>
+                                ))
+                               }
+                              </Typography>
+                        </Grid>
+                      </Grid>
+                    ))
+              }
               </Grid>
-              <Grid item xs={12} md={4} border="1px">
-                <Grid borderBottom="1px">
+
+              <Grid  item xs={12} md={4} border="1px">
+                <Grid   borderBottom="1px">
                     <Card sx={{ width: "100%" }}>     
-                    <CardMedia>
-                      <Grid container spacing={2}>
-                        {getEvenets?.knowledge_graph?.images.map((img,index) => (
-                          <Grid item xs={3}>
-                            <img src={img} alt="Image 1" />
-                          </Grid>
+                    <CardMedia >
+                      <Grid   container spacing={1}>
+                        {Array.isArray(getEvenets?.knowledge_graph?.images) && getEvenets?.knowledge_graph?.images.slice(0, 6).map((img,index) => (
+                          
+                          <Grid 
+                          key={index} item xs={4} style={{ margin: '0px' }}>
+                          <img src={img} alt={`Image ${index + 1}`} style={{ width: '100%', height: '100px', objectFit: 'fill'}} />
+                        </Grid>
                         ))}
+                  
+                      <Grid   position="relative" item xs={12} >
+                            <Link to="/" 
+                            onMouseEnter={()=>setHover(true)}
+                            onMouseLeave={()=>setHover(false)}
+                            style={{textDecoration:`${hover ? 'underline' : 'none'}`,borderRadius:'5px',opacity:`${hover ? '.8' : '.6'}`, transition: 'opacity 0.3s ease',backgroundColor:`${hover ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, 0.65)'}`,padding:'4px',display:'flex',alignItems:'center',color:'#fff',position:'absolute',bottom:'12px',right:'0px',zIndex:'1'}}>
+                               <Image /> <Typography ml={1}>More Images</Typography>
+                            </Link>
+                      </Grid>
                       </Grid>
                     </CardMedia>
                         
@@ -259,7 +362,9 @@ const OverallEventView = () => {
                   </Grid>
                 </Grid>
               </Grid>
-  </>
+      </>
+         }
+  </Container>
   )
 }
 
