@@ -22,7 +22,7 @@ const [defaultValue,setDefaultValue]=useState('')
     onBlur={()=>setSearchHover(false)}
       style={{ 
         minWidth:"200px",
-        width:`${!searchHover ? '25%' : '80%'}`,
+        width:`${!searchHover ? '25%' : '70%'}`,
         transition: 'width 0.3s ease-in-out'
       }}
     value={defaultValue}

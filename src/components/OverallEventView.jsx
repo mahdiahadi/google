@@ -7,12 +7,16 @@ import AppsIcon from '@mui/icons-material/Apps';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Image, Star, StarBorder } from '@mui/icons-material';
+import { ArrowRight, Image, Settings, Star, StarBorder } from '@mui/icons-material';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // import the carousel CSS
 import DesktopMenu from './DesktopMenu';
+import QuickSetting from './QuickSetting';
+import { newsFilteringData } from '../assets/data/newsFilteringData';
 
 const OverallEventView = () => {
+  //desktoop quick setting
+  const [quickSetting,setQuickSetting] = useState(false)
   // desktop menu
   const [desktopMenu,setDesktopMenu]=useState(false)
   // side image state
@@ -75,8 +79,10 @@ const OverallEventView = () => {
             <>
             <SearchBar searchHover={searchHover} setSearchHover={setSearchHover} setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
             <Grid position="realtive">
-            <Button onClick={()=>setDesktopMenu(!desktopMenu)} size='small'><AppsIcon/></Button>
+            <Button sx={{padding:'0'}} onClick={()=>setQuickSetting(!quickSetting)} size='small'><Settings/></Button>
+            <Button sx={{padding:'0'}} onClick={()=>setDesktopMenu(!desktopMenu)} size='small'><AppsIcon/></Button>
             <Button size='small' variant='contained'>Signin</Button>
+            { quickSetting && <QuickSetting quickSetting={quickSetting} setQuickSetting={setQuickSetting} />}
             { desktopMenu && <DesktopMenu desktopMenu={desktopMenu} setDesktopMenu={setDesktopMenu}/>}
             </Grid>
             </>
@@ -90,14 +96,14 @@ const OverallEventView = () => {
         isLoading ? <Grid display="flex" justifyContent="center" alignContent="center"><Typography variant='h4'>Loading...</Typography></Grid> 
         :
       <>
-      <Grid container spacing={2} alignContent="center" display="flex" >
-          <Grid item xs={12}>
-              {FilterNews?.map((item,index)=> (
-                
-                 <Button key={index} variant='outlined' sx={{ borderRadius:'50px',padding:'7px',marginTop:'1rem',marginRight:'1rem'}} >{item}</Button>
-                
-              ))}
-          </Grid>
+      <Grid sx={{borderBottom:'1px solid rgba(0, 0, 0, 0.2)'}}>
+        <Grid container spacing={2} alignContent="center" display="flex" >
+            <Grid item xs={12}>
+                {newsFilteringData?.map((item,index)=> (
+                   <Button key={item.id}   sx={{ marginTop:'1rem',marginRight:'1rem'}} >{item.icon}{item.title}</Button>
+                ))}
+            </Grid>
+        </Grid>
       </Grid>
       <Grid marginTop="5px" container spacing={2} alignContent="center" display="flex">
           <Grid item xs={12}>
@@ -243,7 +249,7 @@ const OverallEventView = () => {
                       <Grid marginTop={5} container  direction="column" alignContent="flex-start" justifyContent="flex-start" key={index}>
                         <Grid display="flex" alignItems="center" justifyItems="flex-start" >
                             <Box display="flex" alignContent="center">
-                              <img src={getEvenets?.inline_images[4].image} style={{ width:'30px',height:'30px',borderRadius:'100%',objectFit:'contain'}}/>
+                              <img src={getEvenets?.inline_images && getEvenets?.inline_images[1].image} style={{ width:'30px',height:'30px',borderRadius:'100%',objectFit:'contain'}}/>
                             </Box>
                             <Box mx=".8rem">
                               <Typography variant='body1' color="rgba(0, 0, 0, 0.8)" >{result?.displayed_link}</Typography>
