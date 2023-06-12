@@ -9,7 +9,7 @@ const [defaultValue,setDefaultValue]=useState('')
       setSearchTerm(defaultValue)
       console.log('query:' , searchTerm)
     if( searchTerm.trim() !== '' ){
-      const searchUrl = `/search?q=${encodeURIComponent(searchTerm)}`
+      const searchUrl = `/search/All?q=${encodeURIComponent(searchTerm)}`
       navigate(searchUrl,{ replace:true})
     } else if (searchTerm.trim() === '' ){
       navigate('/')

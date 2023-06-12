@@ -4,11 +4,11 @@ import { Settings as SettingsIcon, Notifications as NotificationsIcon, AccountCi
 import { Link } from 'react-router-dom';
 const QuickSetting = ({quickSetting,setQuickSetting}) => {
   return (
-     <Modal
+     <Modal   
       open={quickSetting}
       onClose={()=>setQuickSetting(false)}
      >
-    <Grid  item xs={12} zIndex={9999999} bgcolor='background.paper' position="absolute" right='0' top="0" height="0" sx={{ width: quickSetting ? '350px' : '0' , height: quickSetting && '100vh' }}>
+    <Grid item xs={12} zIndex={9999999} bgcolor='background.paper' position="absolute" right='0' top="0" height="0" sx={{ width: quickSetting ? '350px' : '0' , height: quickSetting && '100vh' }}>
         <Grid borderBottom='1px solid rgba(0, 0, 0, 0.2)'>
         <Grid m={2}   className='quickSetting'>
           <Grid container item xs={12} display="flex" justifyContent="space-between" alignContent="center">
