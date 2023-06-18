@@ -8,10 +8,11 @@ import News from './components/News'
 import Videos from './components/Videos'
 import More from './components/More'
 import Images from "./components/Images";
+import { Container } from '@mui/material'
 function App() {
   const [searchTerm,setSearchTerm] =useState('bitcoin')
   return (
-    <>
+    <Container >
       <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
       <Routes>
         <Route path="/" element={<Navigate to={`/search/All?q=${encodeURIComponent(searchTerm)}`}/>} />
@@ -21,7 +22,7 @@ function App() {
         <Route path="/search/Videos" element={<Videos />} />
         <Route path="/search/More" element={<More />} />
       </Routes>
-    </>
+    </Container>
   )
 }
 

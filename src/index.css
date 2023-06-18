@@ -1,3 +1,6 @@
+body{
+    overflow-x: hidden;
+}
 a {
     text-decoration: none;
     color: #007bff;
@@ -7,4 +10,11 @@ a {
     background-color: rgba(0, 0, 0, 0) ;
     opacity:1 ;
     text-decoration: underline;
+}
+.relative-carousel{
+    position: relative;
+}
+.center-arrows {
+    display: grid;
+  place-items: center;
 }
