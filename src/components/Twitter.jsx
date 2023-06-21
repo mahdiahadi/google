@@ -16,7 +16,7 @@ const Twitter = ({index,date,date_utc,link,title,snippet,image}) => {
              }} 
                 component="img"
                 height="160"
-               image={image}
+                image={image}
                 alt="green iguana"
               />
               <CardContent sx={{height:'100%',minHeight:'130px',overflow:'auto'}} >

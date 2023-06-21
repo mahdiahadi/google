@@ -11,15 +11,24 @@ import Images from "./components/Images";
 import { Container } from '@mui/material'
 function App() {
   const [searchTerm,setSearchTerm] =useState('bitcoin')
+  const [showTools,setShowTools]=useState(false)
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift()
+}
+const [theme,setTheme]=useState(
+    getCookie('theme') || 'light'
+)
   return (
-    <Container >
-      <Navbar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
+    <Container data-theme={theme} >
+      <Navbar setShowTools={setShowTools} showTools={showTools} searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
       <Routes>
         <Route path="/" element={<Navigate to={`/search/All?q=${encodeURIComponent(searchTerm)}`}/>} />
-        <Route path="/search/All" element={<OverallEventView searchTerm={searchTerm}/> }  />
-        <Route path="/search/Images" element={<Images />} />
-        <Route path="/search/News" element={<News />} />
-        <Route path="/search/Videos" element={<Videos />} />
+        <Route path="/search/All" element={<OverallEventView showTools={showTools} searchTerm={searchTerm}/> }  />
+        <Route path="/search/Images" element={<Images searchTerm={searchTerm} />} />
+        <Route path="/search/News" element={<News searchTerm={searchTerm} />} />
+        <Route path="/search/Videos" element={<Videos searchTerm={searchTerm} />} />
         <Route path="/search/More" element={<More />} />
       </Routes>
     </Container>

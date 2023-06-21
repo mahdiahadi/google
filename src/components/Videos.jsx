@@ -1,6 +1,8 @@
 import React from 'react'
+import { useGetVideosQuery } from '../redux/services/OverallEventViewApi'
 
-const Videos = () => {
+const Videos = ({searchTerm}) => {
+  const {data:getVideos} = useGetVideosQuery(searchTerm)
   return (
     <div>Videos</div>
   )
