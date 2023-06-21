@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Clear, ClearAll, Padding, Search as SearchIcon } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 const SearchBar = ({searchTerm,setSearchTerm,onSearch,setSearchHover,searchHover}) => {
-const [defaultValue,setDefaultValue]=useState('')
+const [defaultValue,setDefaultValue]=useState('bitcoin')
   const navigate = useNavigate()
     const handleSearch = (e) => {
       setSearchTerm(defaultValue)

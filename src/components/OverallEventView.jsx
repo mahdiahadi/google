@@ -19,14 +19,14 @@ import { googleData } from '../assets/data/googleData';
 import Twitter from './Twitter';
 import InlineVideos from './InlineVideos';
 
-const OverallEventView = ({searchTerm}) => {
+const OverallEventView = ({searchTerm,showTools}) => {
 
   // side image state
   const [hover,setHover]=useState(false)
  
   // getdata from redux api
   const { data:getEvenets,isLoading,isError} = useGetEventsQuery(searchTerm);
-  console.log(getEvenets)
+
 
   // mobile or tablet state 
   const theme = useTheme()
@@ -50,14 +50,17 @@ const OverallEventView = ({searchTerm}) => {
         :
       <>
    
-      <Grid marginTop="5px" container spacing={2} alignContent="center" display="flex">
-          <Grid item xs={12}>
-              <Typography color="#707c80">About : {total_results?.toLocaleString()} results ({getEvenets?.search_information?.time_taken_displayed} <b>{myString.charAt(0)}</b>{myString.slice(1)}) </Typography>
-          </Grid>
+     {
+      !showTools && 
+      <Grid sx={{ transition:'all 0.3s ease-in-out'}} marginTop="5px" container spacing={2} alignContent="center" display="flex">
+        <Grid item xs={12}>
+          <Typography variant='body2' color="#707c80">About : {total_results?.toLocaleString()} results ({getEvenets?.search_information?.time_taken_displayed} <b>{myString.charAt(0)}</b>{myString.slice(1)}) </Typography>
+        </Grid>
       </Grid>
-      <Grid marginTop="5px" container spacing={2} alignContent="center" display="flex">
+     }
+      <Grid marginTop={ showTools && '40px'} container spacing={2} alignContent="center" display="flex">
           <Grid item xs={12}>
-              <Typography color="#707c80">Results for : <b>{location}</b> with <b>{getEvenets?.search_parameters?.engine}</b> engine .  </Typography>
+              <Typography variant="body2" color="#707c80">Results for : <b>{location}</b> with <b>{getEvenets?.search_parameters?.engine}</b> engine .  </Typography>
           </Grid>
       </Grid>
       <Grid container  spacing={2} alignContent="center" display="flex">
@@ -114,8 +117,8 @@ const OverallEventView = ({searchTerm}) => {
                           <CardContent  sx={{ maxHeight:'contain',direction: 'column', alignContent: 'flex-start' ,overflow:'auto' }}>
                             <Box mb={1} display="flex" alignItems="center" justifyContent="flex-start">
                               <img style={{ borderRadius: '100%', marginRight: '5px', height: '20px', width: '20px' }} src={story?.thumbnail} alt="" />
-                              <Typography variant='body4'>
-                                <Link style={{ textDecoration: 'none', color: 'rgba(0, 0, 0, 0.87)' }}>{story?.source}</Link>
+                              <Typography >
+                                <Link style={{textDecoration: 'none', color: 'rgba(0, 0, 0, 0.87)' }}>{story?.source}</Link>
                               </Typography>
                             </Box>
                             <Box>
