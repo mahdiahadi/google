@@ -10,6 +10,7 @@ import More from './components/More'
 import Images from "./components/Images";
 import { Container } from '@mui/material'
 function App() {
+  const [currentPage, setCurrentPage] = useState(1)
   const [searchTerm,setSearchTerm] =useState('bitcoin')
   const [showTools,setShowTools]=useState(false)
   const getCookie = (name) => {
@@ -27,7 +28,7 @@ const [theme,setTheme]=useState(
         <Route path="/" element={<Navigate to={`/search/All?q=${encodeURIComponent(searchTerm)}`}/>} />
         <Route path="/search/All" element={<OverallEventView showTools={showTools} searchTerm={searchTerm}/> }  />
         <Route path="/search/Images" element={<Images searchTerm={searchTerm} />} />
-        <Route path="/search/News" element={<News searchTerm={searchTerm} />} />
+        <Route path="/search/News" element={<News currentPage={currentPage} searchTerm={searchTerm} />} />
         <Route path="/search/Videos" element={<Videos searchTerm={searchTerm} />} />
         <Route path="/search/More" element={<More />} />
       </Routes>

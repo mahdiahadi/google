@@ -18,6 +18,7 @@ import RelatedSearch from './RelatedSearch';
 import { googleData } from '../assets/data/googleData';
 import Twitter from './Twitter';
 import InlineVideos from './InlineVideos';
+import TopStories from './TopStories';
 
 const OverallEventView = ({searchTerm,showTools}) => {
 
@@ -26,8 +27,9 @@ const OverallEventView = ({searchTerm,showTools}) => {
  
   // getdata from redux api
   const { data:getEvenets,isLoading,isError} = useGetEventsQuery(searchTerm);
-
-
+console.log('getEvents',getEvenets)
+// inline images
+  const images = getEvenets?.inline_images && getEvenets?.inline_images  
   // mobile or tablet state 
   const theme = useTheme()
   const isMobileOrTablet = useMediaQuery(theme.breakpoints.down('md'))
@@ -145,44 +147,15 @@ const OverallEventView = ({searchTerm,showTools}) => {
                     <Grid container  item xs={12}  alignItems="center" marginTop="1rem"  >
                         {
                           getEvenets?.top_stories?.slice(0,4)?.map((story,index) => (
-                            <Grid  borderLeft={ isMobileOrTablet ? 'none' : index % 2 !== 0 && "1px solid #ccc"}  key={index} item xs={12} sm={6}>
-                              <Card  key={index} sx={{ display: 'flex' , height:'150px', boxShadow: 'none', }}>
-                                <Box    sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                                  <CardContent   sx={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between',py:'5px', borderTop: isMobileOrTablet ? "none" : index === 2 || index === 3 ? '1px solid #ccc' : 'none' }}>
-                                   <Box   display="flex" alignItems="center" justifyContent="flex-start">
-                                   <img style={{ borderRadius: '100%', marginRight: '5px', height: '20px', width: '20px' }} src={story?.thumbnail} alt="" />
-                                   <Typography variant='body4'><Link style={{ textDecoration:'none', color:'rgba(0, 0, 0, 0.87)'}}>{story?.source}</Link></Typography>
-                                   </Box>
-                                    <Typography component="div" variant="body2" color="#007bff">
-                                     <Link style={{color:"#007bff"}}> {story?.title.slice(0,60)}...</Link>
-                                    </Typography>
-                                  <Box sx={{ display: 'flex', alignItems: 'center', pb: 1 }}>
-                                    <Typography variant='body2' color="text.secondary">{story?.date}</Typography>
-                                  </Box>
-                                  </CardContent>
-                               
-                                      </Box>
-                                  {story?.thumbnail && 
-                                  <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', p: '8px' , borderTop: isMobileOrTablet ? "none" : index === 2 || index === 3 ? '1px solid #ccc' : 'none'  }} >
-                                  <CardMedia
-      
-                                    component="img"
-                                    sx={{                      
-                                      objectFit: 'contain',
-                                      borderRadius: '10%',
-                                      height: '100px',
-                                      width: '100px',
-                                      maxHeight: '100px',
-                                      maxWidth: '100px'
-                                    }}
-                                    image={story.thumbnail}
-                                    alt="Live from space album cover"
-                                    />
-                                </Box>
-                                }                                 
-                                </Card>
-                                </Grid>                      
-                           ))
+                            <TopStories
+                             key={index}
+                             index={index} 
+                             story={story} 
+                             sm={6} 
+                             borderLeft={isMobileOrTablet ? 'none' : index % 2 !== 0 && "1px solid #ccc"}                    
+                             borderTop={ isMobileOrTablet ? "none" : index === 2 || index === 3 ? '1px solid #ccc' : 'none'}
+                             />
+                             ))
                         }
                       
                        <Grid container justifyContent="center" >
@@ -226,6 +199,7 @@ const OverallEventView = ({searchTerm,showTools}) => {
                       <OraganicResults
                       key={index}
                       result={result}
+                      images={ images[index < images?.length ? index : index - images?.length].image}
                       />
                       )) 
               } 
@@ -329,6 +303,7 @@ const OverallEventView = ({searchTerm,showTools}) => {
                       <OraganicResults
                       key={index}
                       result={result}
+                      images={ images[index < images?.length ? index : index - images?.length].image}
                       />
                       )) 
               } 

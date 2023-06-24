@@ -137,7 +137,7 @@ const Navbar = ({setSearchTerm,searchTerm,showTools, setShowTools}) => {
                        { 
                         getEvents?.search_information?.search_tabs ?
                         getEvents?.search_information?.search_tabs?.map((item,index) => (
-                          <Link key={item.id} to={`/search/${item.title}?q=${encodeURIComponent(searchTerm)}`}> <Button onClick={()=>activeMenuHandle(item)}  sx={{color: activeMenu === item.id &&'black',marginTop:'1rem',marginRight:'1rem',fontSize:'.7rem'}} >{item.icon}{item.text}</Button></Link>                      
+                          <Link key={item.position} to={`/search/${item.text}?q=${encodeURIComponent(searchTerm)}`}> <Button onClick={()=>activeMenuHandle(item)}  sx={{color: activeMenu === item.position &&'black',marginTop:'1rem',marginRight:'1rem',fontSize:'.7rem'}} >{item.icon}{item.text}</Button></Link>                      
                       ))
                       :
                       newsFilteringData?.map((item,index)=> ( 
@@ -152,7 +152,7 @@ const Navbar = ({setSearchTerm,searchTerm,showTools, setShowTools}) => {
                     { 
                         getEvents?.search_information?.search_tabs ?
                         getEvents?.search_information?.search_tabs?.map((item,index) => (
-                          <Link key={item.id} to={`/search/${item.title}?q=${encodeURIComponent(searchTerm)}`}> <Button onClick={()=>activeMenuHandle(item)}  sx={{color: activeMenu === item.id &&'black',marginTop:'1rem',marginRight:'1rem',fontSize:'.7rem'}} >{item.icon}{item.text}</Button></Link>                      
+                          <Link key={item.position} to={`/search/${item.text}?q=${encodeURIComponent(searchTerm)}`}> <Button onClick={()=>activeMenuHandle(item)}  sx={{color: activeMenu === item.position &&'black',marginTop:'1rem',marginRight:'1rem',fontSize:'.7rem'}} >{item.icon}{item.text}</Button></Link>                      
                       ))
                       :
                              newsFilteringData?.map((item,index)=> ( 

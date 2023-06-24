@@ -3,7 +3,7 @@ import {createApi,fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const baseUrl = 'https://api.scaleserp.com';
 
 const createrequest = (url) => ( url );
-const api_key = "1551CFEEB7D0442D9B5BCC6E8CD71BE6"
+const api_key = "342643FADCBA422EB03302083110DA4C"
 export const overallEventViewsApi = createApi({
     reducerPath: 'overallEventViewsApi',
     baseQuery: fetchBaseQuery({ baseUrl }),
@@ -18,7 +18,7 @@ export const overallEventViewsApi = createApi({
             query: (search) => createrequest(`/search?q=${search}&videos&api_key=${api_key}&location=New York,New York,United State`)
         }),
         getNews: builder.query({
-            query: (search) => createrequest(`/search?q=${search}&news&api_key=${api_key}&location=New York,New York,United State`) 
+            query: ({searchTerm,currentPage}) => createrequest(`/search?q=${searchTerm}&news&api_key=${api_key}&location=New York,New York,United State&page=${currentPage}`) 
         })
     })
 })

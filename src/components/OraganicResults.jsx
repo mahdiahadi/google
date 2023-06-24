@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useGetEventsQuery } from '../redux/services/OverallEventViewApi'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Star } from '@mui/icons-material';
-const OraganicResults = ({result}) => {
+const OraganicResults = ({result,images}) => {
     const {data:getEvenets}=useGetEventsQuery()
     //Rating star
   const [allStar]=useState(5);
@@ -33,7 +33,7 @@ const OraganicResults = ({result}) => {
     <Grid marginTop={5} container  direction="column" alignContent="flex-start" justifyContent="flex-start" >
     <Grid display="flex" alignItems="center" justifyItems="flex-start" >
         <Box display="flex" alignContent="center">
-          <img src={getEvenets?.inline_images && getEvenets?.inline_images[1].image} style={{ width:'30px',height:'30px',borderRadius:'100%',objectFit:'contain'}}/>
+          <img src={getEvenets?.inline_images && images} style={{ width:'30px',height:'30px',borderRadius:'100%',objectFit:'contain'}}/>
         </Box>
         <Box mx=".8rem">
           <Typography variant='body1' color="rgba(0, 0, 0, 0.8)" >{result?.displayed_link}</Typography>
