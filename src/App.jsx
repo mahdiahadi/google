@@ -28,9 +28,9 @@ const [theme,setTheme]=useState(
         <Route path="/" element={<Navigate to={`/search/All?q=${encodeURIComponent(searchTerm)}`}/>} />
         <Route path="/search/All" element={<OverallEventView showTools={showTools} searchTerm={searchTerm}/> }  />
         <Route path="/search/Images" element={<Images searchTerm={searchTerm} />} />
-        <Route path="/search/News" element={<News currentPage={currentPage} searchTerm={searchTerm} />} />
-        <Route path="/search/Videos" element={<Videos searchTerm={searchTerm} />} />
-        <Route path="/search/More" element={<More />} />
+        <Route path="/search/News" element={<News showTools={showTools} setCurrentPage={setCurrentPage} currentPage={currentPage} searchTerm={searchTerm} />} />
+        <Route path="/search/Videos" element={<Videos showTools={showTools} searchTerm={searchTerm} setCurrentPage={setCurrentPage} currentPage={currentPage} />} />
+        <Route path="/search/More" element={<More showTools={showTools} />} />
       </Routes>
     </Container>
   )

@@ -425,6 +425,24 @@ console.log('getEvents',getEvenets)
                         ))}
                         </CardContent>
                       }
+                      {
+                        getEvenets?.local_results && 
+                        <List
+                        sx={{width:'100%'}}
+                        component='nav'
+                        aria-labelledby="nested-list-subheader"
+                        >
+                          {
+                          getEvenets?.local_results?.map((result,index) => (
+                              <ListItemButton>
+                                <ListItemText>
+                                    {result?.title}
+                                </ListItemText>
+                                    
+                              </ListItemButton>
+                              ))}
+                            </List>
+                      }
                       </Card>
                     </Grid>
               </Grid>
