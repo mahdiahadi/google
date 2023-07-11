@@ -14,7 +14,7 @@ const VideosOrganicResult = ({result}) => {
             <iframe
     width={150}
     height={70}
-
+    // src="https://webcache.googleusercontent.com/search?q=cache:EX1poMDaC58J:https://bitcoin.org/fr/&cd=14&hl=fr&ct=clnk&gl=fr"
     title="YouTube video"
     sandbox="allow-same-origin"
     style={{ overflow:'hidden',padding:6, borderRadius:'5px'}}

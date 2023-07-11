@@ -12,11 +12,12 @@ const RelatedQuestions = ({question,answer,title,link,displayed_link}) => {
     }
   return (
     <List
+    className='listHoverDark' 
     sx={{width:'100%',bgcolor:'background.paper',borderBottom:'1px solid rgba(0, 0, 0, 0.2)',paddingY:'0'}}
     component="nav"
     >
-        <ListItemButton sx={{paddingLeft:'5px',paddingRight:'0'}} onClick={handleClick}>
-           <ListItemText>
+        <ListItemButton    sx={{paddingLeft:'5px',paddingRight:'0'}} onClick={handleClick}>
+           <ListItemText  >
                 {question}
            </ListItemText>
            <ListItemIcon  sx={{paddingRight:'0',display:'flex',justifyContent:'flex-end'}}>

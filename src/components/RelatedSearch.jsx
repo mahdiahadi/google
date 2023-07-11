@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 const RelatedSearch = ({link,query,type,name,image}) => {
   return (
         <Grid    
+        className='listHoverDark'
          sx={{
             width:'100%',
             display:'flex',

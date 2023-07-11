@@ -9,7 +9,7 @@ const [defaultValue,setDefaultValue]=useState('bitcoin')
       setSearchTerm(defaultValue)
     }
     useEffect(()=> {
-      console.log('query:' , searchTerm)
+     
       if( searchTerm.trim() !== '' ){
         const searchUrl = `/search/All?q=${encodeURIComponent(searchTerm)}`
         navigate(searchUrl,{ replace:true})
@@ -19,7 +19,8 @@ const [defaultValue,setDefaultValue]=useState('bitcoin')
     },[searchTerm])
 
   return (
-    <TextField
+    <TextField 
+    className='seachInput'
     onFocus={()=>setSearchHover(true)}
     onBlur={()=>setSearchHover(false)}
       style={{ 
@@ -38,7 +39,7 @@ const [defaultValue,setDefaultValue]=useState('bitcoin')
       },
       startAdornment: (
         <InputAdornment position="start">
-          <IconButton onClick={()=>handleSearch()}>
+          <IconButton className='searchButton' onClick={()=>handleSearch()}>
             <SearchIcon />
           </IconButton>
         </InputAdornment>
@@ -47,7 +48,7 @@ const [defaultValue,setDefaultValue]=useState('bitcoin')
         <InputAdornment position="end">
           {searchTerm && (
             <IconButton onClick={() => setDefaultValue('')}>
-              <Clear />
+              <Clear className='searchButton'  />
             </IconButton>
           )}
         </InputAdornment>

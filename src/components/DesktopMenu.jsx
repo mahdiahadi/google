@@ -1,18 +1,26 @@
 import React from 'react'
-import { Button, Card, CardActions, CardContent, Grid, Modal, Typography } from '@mui/material'
+import { Button, Card, CardActions, CardContent, Grid, Modal, ThemeProvider, Typography, createTheme } from '@mui/material'
 import { googleData } from '../assets/data/googleData'
 import { Link } from 'react-router-dom'
 import { Padding } from '@mui/icons-material'
 import { googleAdditionalData } from '../assets/data/googleAdditionalData'
 
-const DesktopMenu = ({setDesktopMenu,desktopMenu}) => {
+const DesktopMenu = ({setDesktopMenu,desktopMenu,darkMode}) => {
+  const theme = createTheme({
+    typography:{
+      allVariants:{
+        color: darkMode && '#bdc1c6'
+      }
+    }
+  })
   return (
+    <ThemeProvider theme={theme}>
     <Grid sx={{ transition:'all 0.4s ease'}}  item xs={12} >
         <Modal
             open={desktopMenu}
             onClose={()=>setDesktopMenu(false)}
         > 
-          <Card sx={{ minWidth: 275,position:"absolute", right:"20px", top:"60px",  bgcolor: 'background.paper',border: '2px solid #000',width:'300px',height:'400px',overflowY:'auto'  }}>
+          <Card sx={{ minWidth: 275,position:"absolute", right:"20px", top:"60px",  bgcolor: !darkMode ? 'background.paper' : '#212529',border: '2px solid #000',width:'300px',height:'400px',overflowY:'auto'  }}>
       <CardContent >
         <Grid container >
           {
@@ -35,14 +43,14 @@ const DesktopMenu = ({setDesktopMenu,desktopMenu}) => {
                       justifyContent="center"
                       alignItems="center">
                   <img src={item.image} style={{ objectFit:'contain',width:'40px',height:'40px'}} />
-                   <Typography color="rgba(0, 0 ,0 ,0.7)" variant='body2'>{item.google}</Typography>
+                   <Typography color={darkMode ? '#bdc1c6' : 'rgba(0, 0, 0, 0.7)'} variant='body2'>{item.google}</Typography>
                </Grid>
                </Link>
               </Grid>
             ))
           }
         </Grid>
-        <Grid container borderTop="1px solid rgba(0, 0, 0, 0.3)" >
+        <Grid container borderTop={ darkMode ? '1px solid #bdc1c6' :"1px solid rgba(0, 0, 0, 0.3)"} >
           {
             googleAdditionalData.map((item , index) => (
               <Grid    
@@ -63,7 +71,7 @@ const DesktopMenu = ({setDesktopMenu,desktopMenu}) => {
                       justifyContent="center"
                       alignItems="center">
                   <img src={item.image} style={{ objectFit:'contain',width:'40px',height:'40px'}} />
-                   <Typography color="rgba(0, 0 ,0 ,0.7)" variant='body2'>{item.google}</Typography>
+                   <Typography color={darkMode ? '#bdc1c6' : 'rgba(0, 0, 0, 0.7)'} variant='body2'>{item.google}</Typography>
                </Grid>
                </Link>
               </Grid>
@@ -71,10 +79,12 @@ const DesktopMenu = ({setDesktopMenu,desktopMenu}) => {
           }
         </Grid>
         <Grid display="flex" alignItems="center" justifyContent="center" mt={1}>
-          <Button     
+          <Button    
+
            variant='outlined' 
             sx={{
-              color:'#8abff8'
+              color:'#8abff8',
+              border: darkMode && '1px solid #bdc1c6'
             }}
             >
                   More from Google
@@ -84,6 +94,7 @@ const DesktopMenu = ({setDesktopMenu,desktopMenu}) => {
     </Card>
     </Modal>
     </Grid>
+    </ThemeProvider>
   )
 }
 

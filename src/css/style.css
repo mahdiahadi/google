@@ -1,0 +1,243 @@
+/* Light mode */
+[data-theme='light'] {
+  --primary-color: #007bff;
+  --secondary-color: #f8f9fa;
+  --text-color: #212529;
+  --bg-color: #ffffff;
+  --bg-color-light: #f8f9fa;
+  --bg-color-hover: #f1f3f5;
+  --border-color: #dee2e6;
+  --accent-color: #ffc107;
+  --danger-color: #dc3545;
+}
+
+/* Dark mode */
+[data-theme='dark'] {
+  --primary-color-dark: #8ab4f8;
+  --secondary-color: #343a40;
+  --text-color-dark: #bdc1c6;
+  --bg-color-dark: #212529;
+  --bg-color-light: #343a40;
+  --bg-color-hover: #3d424a;
+  --border-color: #343a40;
+  --accent-color: #ffc107;
+  --danger-color: #dc3545;
+}
+
+/* General */
+body {
+  margin: 0 auto;
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Header */
+.header {
+  background-color: var(--secondary-color);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.3s ease;
+}
+
+.header .logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--text-color);
+}
+
+.header .menu {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header .menu li a {
+  text-decoration: none;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.header .menu li a:hover {
+  color: var(--primary-color);
+}
+
+/* Sidebar */
+.sidebar {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  width: 280px;
+  padding: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar .logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.sidebar .menu {
+  list-style: none;
+  margin-bottom: 20px;
+}
+
+.sidebar .menu li {
+  margin-bottom: 10px;
+}
+
+.sidebar .menu li a {
+  text-decoration: none;
+  color: var(--text-color);
+  transition: color 0.3s ease;
+}
+
+.sidebar .menu li a:hover {
+  color: var(--primary-color);
+}
+
+/* Content */
+.content {
+  padding: 20px;
+  transition: padding 0.3s ease;
+}
+
+.content .card {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.content .card-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.content .card-content {
+  margin-bottom: 10px;
+}
+
+.content .card-button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.content .card-button:hover {
+  background-color: var(--accent-color);
+}
+
+/* Dark mode specific styles */
+
+body[data-theme='dark'] , [data-theme='dark'] #main{
+  background-color:var(--bg-color-dark) !important;
+}
+[data-theme='dark'] .searchButton{
+  color: var(--primary-color);
+}
+[data-theme='dark'] .seachInput {
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  color: var(--text-color-dark);
+}
+[data-theme='dark'] .MuiInputBase-input,
+.MuiInputBase-textarea,
+.MuiInputBase-select {
+ color: var(--text-color-dark);
+  
+}
+[data-theme='dark'] .MuiInputBase-input {
+
+  color: var(--text-color-dark);
+}
+[data-theme='dark'] .MuiGrid-root ,
+[data-theme='dark'] .MuiGrid-item ,
+[data-theme='dark'] .MuiGrid-container ,
+[data-theme='dark'] .MuiButtonBase-root ,
+[data-theme='dark'] .MuiCollapse-wrapperInner ,
+[data-theme='dark'] .MuiTypography-root ,
+[data-theme='dark'] .MuiSvgIcon-root,
+[data-theme='dark'] .MuiCardMedia-root ,
+[data-theme='dark'] .MuiCardContent-root ,
+[data-theme='dark'] .MuiBox-root,
+[data-theme='dark'] .MuiPaper-root
+{
+  background-color: var(--bg-color-dark);
+  color: var(--text-color-dark);
+}
+[data-theme='dark'] .css-f8jiru-MuiGrid-root, [data-theme='dark'] #setting{
+  background-color: var(--bg-color-dark);
+}
+[data-theme='dark'] .css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root:hover {
+  background-color: var(--bg-color-dark);
+}
+[data-theme='dark'] .css-on6h9s-MuiList-root {
+  background-color: var(--bg-color-dark);
+
+}
+[dark-theme='dark'] .MuiButtonBase-root:hover{
+  background-color: var(--bg-color-dark);
+}
+
+[data-theme='dark'] .MuiSvgIcon-root {
+  color: var(--text-color-dark) !important;
+}
+[data-theme='dark'] link ,[data-theme='dark'] a{
+  color: var(--primary-color-dark) !important;
+}
+[data-theme='dark'] .header,
+[data-theme='dark'] .sidebar {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+[data-theme='dark'] .header .logo,
+[data-theme='dark'] .sidebar .logo {
+  color: var(--text-color);
+}
+
+[data-theme='dark'] .header .menu li a,
+[data-theme='dark'] .sidebar .menu li a {
+  color: var(--primary-color) !important;
+}
+
+[data-theme='dark'] .content {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+[data-theme='dark'] .content .card {
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme='dark'] .content .card-button {
+  background-color: var(--primary-color);
+  color: var(--text-color);
+}
+
+[data-theme='dark'] .content .card-button:hover {
+  background-color: var(--accent-color);
+}
+[data-theme='dark'] > #setting{
+  background-color: var(--bg-color-dark)!important;
+}

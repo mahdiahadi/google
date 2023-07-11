@@ -5,7 +5,7 @@ import { Box, Button, Card, CardActionArea, CardActions, CardContent, CardMedia,
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Link } from 'react-router-dom';
-import { ArrowForward, ArrowRight, ArrowRightAlt, ArrowRightAltOutlined, ExpandLess, ExpandMore, Image, LiveTv, Settings, Star, StarBorder, Tv, VideoCallOutlined } from '@mui/icons-material';
+import { ArrowBackIos, ArrowForward, ArrowForwardIos, ArrowRight, ArrowRightAlt, ArrowRightAltOutlined, ExpandLess, ExpandMore, Image, LiveTv, Settings, Star, StarBorder, Tv, VideoCallOutlined } from '@mui/icons-material';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // import the carousel CSS
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
@@ -20,14 +20,13 @@ import Twitter from './Twitter';
 import InlineVideos from './InlineVideos';
 import TopStories from './TopStories';
 
-const OverallEventView = ({searchTerm,showTools}) => {
+const OverallEventView = ({searchTerm,showTools,setCurrentPage, currentPage}) => {
 
   // side image state
   const [hover,setHover]=useState(false)
  
   // getdata from redux api
-  const { data:getEvenets,isLoading,isError} = useGetEventsQuery(searchTerm);
-console.log('getEvents',getEvenets)
+  const { data:getEvenets,isLoading,isError} = useGetEventsQuery({searchTerm,currentPage});
 // inline images
   const images = getEvenets?.inline_images && getEvenets?.inline_images  
   // mobile or tablet state 
@@ -43,6 +42,16 @@ console.log('getEvents',getEvenets)
   const [isOpen,setIsOpen]=useState(true)
   const handleClick = () => {
     setIsOpen(!isOpen)
+  }
+  // local resukt state
+  const [openLocal, setOpenLocal] = useState(null)
+  const handleClickLocal = (id) => {
+    setOpenLocal( openLocal === id ? null : id )
+  }
+  // related search 
+  const [openRelatedSearch,setOpenRelatedSearch]=useState(null);
+  const handleClickSearch = (id) => {
+      setOpenRelatedSearch( openRelatedSearch === id ? null : id)
   }
   return (
     <Container maxWidth="lg"  >
@@ -66,7 +75,7 @@ console.log('getEvents',getEvenets)
           </Grid>
       </Grid>
       <Grid container  spacing={2} alignContent="center" display="flex">
-        <Grid container marginTop={3} item xs={12} md={8}>
+        <Grid container marginTop={3} item xs={12} md={8} style={{order: isMobileOrTablet && 2}}>
         {
           getEvenets?.top_stories &&
           <Grid position="relative">
@@ -159,7 +168,7 @@ console.log('getEvents',getEvenets)
                         }
                       
                        <Grid container justifyContent="center" >
-                          <Button variant='contained' endIcon={<ArrowRight/>} style={{backgroundColor:"4caf50"}} >More news</Button>
+                          <Button className='btn' variant='contained' endIcon={<ArrowRight/>} style={{backgroundColor:"4caf50"}} >More news</Button>
                         </Grid>
                     </Grid>
                     </>
@@ -199,7 +208,7 @@ console.log('getEvents',getEvenets)
                       <OraganicResults
                       key={index}
                       result={result}
-                      images={ images[index < images?.length ? index : index - images?.length].image}
+                      // images={ images[index < images?.length ? index : index - images?.length].image}
                       />
                       )) 
               } 
@@ -262,14 +271,14 @@ console.log('getEvents',getEvenets)
                     transitionTime={500}
                     slidesToShow={3}
                     slidesToScroll={1}
-                    renderArrowPrev={(onClickHandler, hasPrev, label) =>
+                    renderArrowPrev={(onClickHandler, hasPrev) =>
                       hasPrev && (
                         <IconButton style={{position:'absolute',right:'0',zIndex:'9999',top:'46%'}} onClick={onClickHandler}>
                           <ArrowBackIcon style={{ fontSize: '2rem', color: 'rgba(0, 0, 0, 0.4)' ,backgroundColor:"#fff",borderRadius:'50%' }} />
                         </IconButton>
                       )
                     }
-                    renderArrowNext={(onClickHandler, hasNext, label) =>
+                    renderArrowNext={(onClickHandler, hasNext) =>
                       hasNext && (
                         <IconButton style={{position:'absolute',left:'0px',zIndex:'9999',top:'46%'}} onClick={onClickHandler}>
                           <ArrowForwardIcon style={{ fontSize: '2rem',borderRadius:'50%', color: 'rgba(0, 0, 0, 0.4)',backgroundColor:"#fff",}} />
@@ -303,7 +312,7 @@ console.log('getEvents',getEvenets)
                       <OraganicResults
                       key={index}
                       result={result}
-                      images={ images[index < images?.length ? index : index - images?.length].image}
+                      //  images={ images[index < images?.length ? index : index - images?.length].image &&  images[index < images?.length ? index : index - images?.length].image }
                       />
                       )) 
               } 
@@ -362,18 +371,79 @@ console.log('getEvents',getEvenets)
                   </Grid>
                 </>
               }
-             
-          </Grid>
-              
+            
+           
+                  <Grid container mb={2}>
+                    <Grid item xs={12} display="flex" alignContent='center' justifyContent="center">
+                    <Typography display="flex" variant='h4' >
+                    {
+                      currentPage > 1 && (
+                        <Grid style={{ cursor: 'pointer' }} onClick={() => setCurrentPage(currentPage - 1)} mr={1}>
+                          <Typography variant='h4' color="#1976d2" textAlign="center">
+                            <ArrowBackIos />
+                          </Typography>
+                          <Typography variant='body2' textAlign="center" color="#1976d2">Previous</Typography>
+                        </Grid>
+                      )
+                    }
+                    <span style={{ color: '#1976d2' }}>G</span>
+                    <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                    {
+                      getEvenets?.pagination ? 
+                      (()=>{
+                          const allPages = [
+                            getEvenets?.pagination?.current,
+                            ...getEvenets?.pagination?.api_pagination?.other_page?.map((i)=> i.page)
+                          ];
+                          const sortedPages= allPages?.sort((a,b) => a - b)
+                          return sortedPages?.map((page,index) => (
+                            <Grid
+                              style={{ cursor: 'pointer', margin: '0 5px' }}
+                              onClick={() => setCurrentPage(page)}
+                              key={index}
+                            >
+                              <Typography variant='h4' color={currentPage === page ? 'red' : 'goldenrod'}>o</Typography>
+                              <Typography variant='body2' textAlign="center" color={currentPage === page ? 'rgba(0, 0, 0, 0.7)' : '#1976d2'}>
+                                {page}
+                              </Typography>
+                            </Grid>
+                          ))
+                        })()
+                      :
+                      (()=>{
+                        const allPages=[1,2,3,4,5,6,7,8,9,10]
+                        const sortedpages = allPages.sort((a,b) => a - b)
+                        return sortedpages?.map((page,index) => (
+                          <Grid key={index} onClick={() => setCurrentPage(page)} style={{ cursor:'pointer', margin:'0 5px'}}>
+                             <Typography variant='h4' color={ currentPage === page ? 'red' : 'goldenrod'} >o</Typography>
+                            <Typography variant='body2' textAlign="center" color={ currentPage === page ? 'rgba(0, 0, 0, 0.7)' : '#1976d2'}>{page}</Typography>
+                          </Grid>
+                        ))
+                      })()
+                    }
+                    </Grid>
+                    <span style={{ color: '#1976d2' }}>g</span> <span style={{ color: 'green' }}>l</span><span style={{ color: 'red' }}>e</span>
+                    {
+                       getEvenets?.pagination?.api_pagination?.other_pages.length > 0 && currentPage <= getEvenets?.pagination?.api_pagination?.other_pages.length &&
+                       <Grid style={{ cursor: 'pointer' }} onClick={() => setCurrentPage(currentPage + 1)} ml={2}>
+                         <Typography variant='h4' color="#1976d2" textAlign="center"><ArrowForwardIos /></Typography>
+                         <Typography variant='body2' textAlign="center" color="#1976d2">Next</Typography>
+                       </Grid>
+                      }
+                    </Typography>
+                    </Grid>
+                  </Grid>
+                
+
+          </Grid>      
               {
                 getEvenets?.knowledge_graph &&
-                  <Grid  item xs={12} md={4} border="1px">
+                  <Grid  item xs={12} md={4} style={{ order: isMobileOrTablet && 1}} border="1px">
                   <Grid   borderBottom="1px">
                       <Card sx={{ width: "100%" }}>     
                       <CardMedia >
                         <Grid   container spacing={1}>
                           {Array.isArray(getEvenets?.knowledge_graph?.images) && getEvenets?.knowledge_graph?.images.slice(0, 6).map((img,index) => (
-                            
                             <Grid 
                             key={index} item xs={4} style={{ margin: '0px' }}>
                             <img src={img} alt={`Image ${index + 1}`} style={{ width: '100%', height: '100px', objectFit: 'fill'}} />
@@ -427,6 +497,11 @@ console.log('getEvents',getEvenets)
                       }
                       {
                         getEvenets?.local_results && 
+                        <CardContent>
+                             <Grid item display="flex" justifyContent="space-between" alignContent="center">
+                              <Typography variant='body2' fontWeight='bold' textAlign="center" color="CaptionText">Local Result</Typography>
+                               <Typography variant='body2' textAlign="center" fontSize={12} >View {getEvenets?.local_results?.length -1}+ more</Typography>
+                          </Grid>
                         <List
                         sx={{width:'100%'}}
                         component='nav'
@@ -434,20 +509,58 @@ console.log('getEvents',getEvenets)
                         >
                           {
                           getEvenets?.local_results?.map((result,index) => (
-                              <ListItemButton>
-                                <ListItemText>
+                              <Grid key={index}> 
+                            <ListItemButton sx={{padding:'0px 1px'}} onClick={()=>handleClickLocal(result?.position)}>
+                                <ListItemText sx={{color : openLocal === result?.position && '#007bff'}}>
                                     {result?.title}
                                 </ListItemText>
-                                    
+                                { openLocal === result?.position ? <ExpandLess/> : <ExpandMore/>  }
                               </ListItemButton>
+                              <Collapse in={ openLocal === result?.position}>
+                                <Typography variant='body2'>
+                                  {result?.extensions}
+                                </Typography>
+                              </Collapse>
+                              </Grid>
                               ))}
                             </List>
+                            </CardContent>
+                      }
+                      {
+                        getEvenets?.related_searches && 
+                        <CardContent>
+                          <Grid item display="flex" justifyContent="space-between" alignContent="center">
+                              <Typography variant='body2' fontWeight='bold' textAlign="center" color="CaptionText">Related Search</Typography>
+                               <Typography variant='body2' textAlign="center" fontSize={12} >View {getEvenets?.related_searches?.length -1}+ more</Typography>
+                          </Grid>
+                          <List
+                          sx={{ width:'100%'}}
+                            component="nav"
+                            aria-labelledby="nested-list-subheader"
+                          >
+                              {
+                                getEvenets?.related_searches?.map((search,index) => (
+                                  <Grid key={index}>
+                                  <ListItemButton className='listHoverDark' sx={{padding:'0px 1px'}} onClick={() => handleClickSearch(index)}>
+                                      <ListItemText sx={{color : openRelatedSearch === index && '#007bff'}} >
+                                          {search?.query}
+                                      </ListItemText>
+                                      { openRelatedSearch === index ? <ExpandLess color={openRelatedSearch === index && '#007bff'}/> : <ExpandMore/>}
+                                  </ListItemButton>
+                                  <Collapse in={ openRelatedSearch === index}>
+                                  <Typography variant='body2' ><span style={{ fontWeight:'bold'}}>Group Name:</span> {search?.group_name}</Typography>
+                                  <Typography variant='body2' ><span style={{ fontWeight:'bold'}}>Name</span>: {search?.query}</Typography>
+                                  <Typography variant='body2' ><span style={{ fontWeight:'bold'}}>Type</span>: {search?.type}</Typography>
+                                  </Collapse>
+                                  </Grid>
+                                ))
+                              }
+                          </List>
+                        </CardContent>
                       }
                       </Card>
                     </Grid>
               </Grid>
-            
-
               }
       </Grid>
       </>
@@ -458,28 +571,3 @@ console.log('getEvents',getEvenets)
 
 export default OverallEventView
 
- {/* {
-   isLoading || isError ? 
-   <Grid container justifyContent="center" alignItems="center" style={{ height: '100vh' }}>
-            <Grid item xs={12}>
-              <Typography align="center">
-                {isLoading ? 'Loading...' : 'Error: Something Went Wrong...'}
-              </Typography>
-            </Grid>
-          </Grid>
-        :
-        <>
-             
-                <Grid item xs={0} sm={2} >
-                  <Typography align='center' fontWeight="bold" fontSize={24} color="burlywood">Gooogle</Typography>
-                </Grid>
-                <Grid item xs={12} sm={8}  >
-                  <SearchBar searchHover={searchHover} setSearchHover={setSearchHover}  setSearchTerm={setSearchTerm} searchTerm={searchTerm} onSearch={handleSearch}/>
-                </Grid>
-                <Grid item xs={0} sm={2}>
-                  <Button>SignIn</Button>
-                </Grid>
-
-              
-        </>
-      } */}

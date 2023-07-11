@@ -34,7 +34,7 @@ const News = ({searchTerm,currentPage,setCurrentPage,showTools}) => {
           ))
         }
       </Grid>
-      <Grid container>
+      <Grid container mb={2}>
         {getNews?.organic_results?.map((result,index) => (
           <NewsOrganicResult result={result} key={index}  />
           ))}

@@ -6,7 +6,6 @@ import { ArrowBack, ArrowBackIos, ArrowForward, ArrowForwardIos } from '@mui/ico
 
 const Videos = ({searchTerm,setCurrentPage,currentPage,showTools}) => {
   const {data:getVideos,isFetching} = useGetVideosQuery({searchTerm,currentPage})
-  console.log('Videos:',getVideos)
   return (
     <Container maxWidth="xl">
         {
@@ -29,7 +28,7 @@ const Videos = ({searchTerm,setCurrentPage,currentPage,showTools}) => {
                     ))
                 }
             </Grid>
-            <Grid container>
+            <Grid container mb={2}>
                 <Grid item xs={12} display="flex" alignContent="center" justifyContent="center">
                     <Typography display="flex" variant='h4' >
                       {
@@ -81,7 +80,7 @@ const Videos = ({searchTerm,setCurrentPage,currentPage,showTools}) => {
                         </Grid>
                         <span style={{ color: '#1976d2' }}>g</span> <span style={{ color: 'green' }}>l</span><span style={{ color: 'red' }}>e</span>
                       {
-                       getVideos?.pagination?.api_pagination?.other_pages.length > 0 && currentPage <= getVideos?.pagination?.api_pagination?.other_pages.length &&
+                       getVideos?.pagination?.api_pagination?.other_pages.length > 0 &&  currentPage <= getVideos?.pagination?.api_pagination?.other_pages.length &&
                        <Grid style={{ cursor: 'pointer' }} onClick={() => setCurrentPage(currentPage + 1)} ml={2}>
                          <Typography variant='h4' color="#1976d2" textAlign="center"><ArrowForwardIos /></Typography>
                          <Typography variant='body2' textAlign="center" color="#1976d2">Next</Typography>

@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import { MobileMenu } from './MobileMenu';
 import { Carousel } from 'react-responsive-carousel';
 import { useGetEventsQuery } from '../redux/services/OverallEventViewApi';
-const Navbar = ({setSearchTerm,searchTerm,showTools, setShowTools}) => {
+const Navbar = ({setSearchTerm,searchTerm,showTools, setShowTools,handleDefaultTheme,darkMode,setDarkMode}) => {
   const {data:getEvents}=useGetEventsQuery()
       //desktoop quick setting
   const [quickSetting,setQuickSetting] = useState(false)
@@ -41,18 +41,18 @@ const Navbar = ({setSearchTerm,searchTerm,showTools, setShowTools}) => {
    
     {
       scrollPosition <= 0 ?
-          <Grid  sx={{py:1 ,width:'full' }} container item xs={12}  alignContent="center" display="flex">
+          <Grid  sx={{py:1 ,width:'full',zIndex:'99999' }} container item xs={12}  alignContent="center" display="flex">
             <Grid display="flex" alignItems="center" justifyContent="space-between" height="100%" item xs={12} md={2}>
               {
                 isMobileOrTablet ?
                 <>
-                  { mobileMenu && <MobileMenu mobileMenu={mobileMenu} setMobileMenu={setMobileMenu}/>}
+                  { mobileMenu && <MobileMenu setDarkMode={setDarkMode} darkMode={darkMode} handleDefaultTheme={handleDefaultTheme} mobileMenu={mobileMenu} setMobileMenu={setMobileMenu}/>}
                   <Button size='small' onClick={()=>setMobileMenu(!mobileMenu)}  ><FormatListBulletedIcon/></Button>
-                  <Typography fontWeight="bold" fontSize={24} color="goldenrod">Goooogle</Typography>
+                  <Typography fontWeight="bold" fontSize={24} color="goldenrod"><span style={{color:'rgb(25, 118, 210)'}}>G</span><span style={{color:'red'}}>o</span>oo<span style={{color:'rgb(25, 118, 210)'}}>g</span><span style={{color:'green'}}>l</span><span style={{color:'red'}}>e</span></Typography>
                   <Button size='small' variant='contained'>Signin</Button> 
                 </>
                 :
-                <Typography fontWeight="bold" fontSize={24} color="goldenrod">Goooogle</Typography> 
+                <Typography fontWeight="bold" fontSize={24} color="goldenrod"><span style={{color:'rgb(25, 118, 210)'}}>G</span><span style={{color:'red'}}>o</span>oo<span style={{color:'rgb(25, 118, 210)'}}>g</span><span style={{color:'green'}}>l</span><span style={{color:'red'}}>e</span></Typography> 
               }
             </Grid>
             <Grid item xs={12} md={10} alignItems="center" mx={isMobileOrTablet && '20px'} justifyContent="space-between" display="flex"> 
@@ -64,8 +64,8 @@ const Navbar = ({setSearchTerm,searchTerm,showTools, setShowTools}) => {
                 <Button sx={{padding:'0'}} onClick={()=>setQuickSetting(!quickSetting)} size='small'><Settings/></Button>
                 <Button sx={{padding:'0'}} onClick={()=>setDesktopMenu(!desktopMenu)} size='small'><AppsIcon/></Button>
                 <Button size='small' variant='contained'>Signin</Button>
-                { quickSetting && <QuickSetting quickSetting={quickSetting} setQuickSetting={setQuickSetting} />}
-                { desktopMenu && <DesktopMenu desktopMenu={desktopMenu} setDesktopMenu={setDesktopMenu}/>}
+                { quickSetting && <QuickSetting setDarkMode={setDarkMode} darkMode={darkMode} handleDefaultTheme={handleDefaultTheme} quickSetting={quickSetting} setQuickSetting={setQuickSetting} />}
+                { desktopMenu && <DesktopMenu darkMode={darkMode} desktopMenu={desktopMenu} setDesktopMenu={setDesktopMenu}/>}
                 </Grid>
                 </>
                 :
@@ -77,17 +77,17 @@ const Navbar = ({setSearchTerm,searchTerm,showTools, setShowTools}) => {
    
       :
 
-        <Grid  position='fixed' top={0} left={0} sx={{backgroundColor:'#fff', width:'full',zIndex:'999',py:1,boxShadow:'0 2px 4px 0 rgba(0,0,0,.2)',  transition: 'all 0.5s ease-out' }} container alignContent="center" display="flex">
+        <Grid  position='fixed' top={0} left={0} sx={{backgroundColor:'#fff', width:'full',zIndex:'999999',py:1,boxShadow:'0 2px 4px 0 rgba(0,0,0,.2)',  transition: 'all 0.5s ease-out' }} container alignContent="center" display="flex">
       <Grid  display="flex" alignItems="center" justifyContent="space-around" height="100%" item xs={12} md={2}>
         {
           isMobileOrTablet ?
           <>
             <Button size='small'  ><FormatListBulletedIcon/></Button>
-            <Typography fontWeight="bold" fontSize={24} color="goldenrod">Goooogle</Typography>
+            <Typography fontWeight="bold" fontSize={24} color="goldenrod"><span style={{color:'rgb(25, 118, 210)'}}>G</span><span style={{color:'red'}}>o</span>oo<span style={{color:'rgb(25, 118, 210)'}}>g</span><span style={{color:'green'}}>l</span><span style={{color:'red'}}>e</span></Typography>
             <Button size='small' variant='contained'>Signin</Button>  
           </>
           :
-          <Typography fontWeight="bold" fontSize={24} color="goldenrod">Goooogle</Typography> 
+          <Typography fontWeight="bold" fontSize={24} color="goldenrod"><span style={{color:'rgb(25, 118, 210)'}}>G</span><span style={{color:'red'}}>o</span>oo<span style={{color:'rgb(25, 118, 210)'}}>g</span><span style={{color:'green'}}>l</span><span style={{color:'red'}}>e</span></Typography> 
         }
       </Grid>
       <Grid item xs={12} md={10} alignItems="center" mx={isMobileOrTablet && '80px'} justifyContent={isMobileOrTablet ? 'flex-start' : 'space-around'} display="flex"> 
@@ -99,7 +99,7 @@ const Navbar = ({setSearchTerm,searchTerm,showTools, setShowTools}) => {
           <Button sx={{padding:'0'}} onClick={()=>setQuickSetting(!quickSetting)} size='small'><Settings/></Button>
           <Button sx={{padding:'0'}} onClick={()=>setDesktopMenu(!desktopMenu)} size='small'><AppsIcon/></Button>
           <Button size='small' variant='contained'>Signin</Button>
-          { quickSetting && <QuickSetting quickSetting={quickSetting} setQuickSetting={setQuickSetting} />}
+          { quickSetting && <QuickSetting setDarkMode={setDarkMode} darkMode={darkMode} handleDefaultTheme={handleDefaultTheme} quickSetting={quickSetting} setQuickSetting={setQuickSetting} />}
           { desktopMenu && <DesktopMenu desktopMenu={desktopMenu} setDesktopMenu={setDesktopMenu}/>}
           </Grid>
           </>

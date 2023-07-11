@@ -9,7 +9,7 @@ export const overallEventViewsApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
         getEvents: builder.query({
-            query: (search) => createrequest(`/search?q=${search}&api_key=${api_key}&location=New York,New York,United States`),
+            query: ({searchTerm,currentPage}) => createrequest(`/search?q=${searchTerm}&api_key=${api_key}&location=New York,New York,United States&page=${currentPage}`),
         }),
         getImages: builder.query({
             query: (search) => createrequest(`/search?q=${search}&images&api_key=${api_key}&location=New York,New York,United State`)
