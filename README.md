@@ -10,3 +10,6 @@
   <li>Responsive</li>
   <li>Dark and light display</li>
 </ul>
+<br/>
+<h2>Deploy</h2>
+https://googleredux.netlify.app
